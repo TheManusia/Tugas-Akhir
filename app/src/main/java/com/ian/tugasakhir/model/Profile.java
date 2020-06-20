@@ -8,11 +8,12 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Profile {
-    String id;
-    String username;
-    String gambar;
-    boolean absen;
-    int hadir;
-    int izin;
-    int alpa;
+    private String id;
+    private String username;
+    private String gambar;
+    private boolean absen;
+    private int hadir;
+    private int izin;
+    private int alpa;
+    private boolean session;
 }
