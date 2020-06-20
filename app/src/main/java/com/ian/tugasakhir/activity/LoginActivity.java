@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     LoginViewModel viewModel;
     String username;
 
-    public static final String KEY_USERNAME = "USERNAME";
+    public static final String KEY_ID = "ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             if (response.getSuccess() > 0) {
                 showToast("Berhasil Login");
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                intent.putExtra(KEY_USERNAME, username);
+                intent.putExtra(KEY_ID, username);
                 startActivity(intent);
                 finish();
             } else {

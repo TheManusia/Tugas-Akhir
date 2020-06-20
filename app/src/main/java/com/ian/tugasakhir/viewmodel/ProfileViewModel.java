@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModel;
 
 public class ProfileViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
-
     public ProfileViewModel() {
-        mText = new MutableLiveData<>();
+        MutableLiveData<String> mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
     }
 

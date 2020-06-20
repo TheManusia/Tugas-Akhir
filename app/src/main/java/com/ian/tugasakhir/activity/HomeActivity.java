@@ -1,6 +1,7 @@
 package com.ian.tugasakhir.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,14 +15,14 @@ import com.ian.tugasakhir.R;
 import com.ian.tugasakhir.preference.ProfilePreference;
 import com.ian.tugasakhir.viewmodel.HomeViewModel;
 
-import static com.ian.tugasakhir.activity.LoginActivity.KEY_USERNAME;
+import static com.ian.tugasakhir.activity.LoginActivity.KEY_ID;
 
 public class HomeActivity extends AppCompatActivity {
 
     HomeViewModel viewModel;
     BadgeDrawable badge;
     ProfilePreference preference;
-    String username;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +33,11 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
 
-        preference = new ProfilePreference(getApplicationContext());
-
-        if (getIntent() != null) {
-            username = getIntent().getStringExtra(KEY_USERNAME);
-        }
+        preference = new ProfilePreference(this);
+        id = getIntent().getStringExtra(KEY_ID);
 
         viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
-        viewModel.setProfileData(username);
+        viewModel.setProfileData(id);
 
         badge = navView.getOrCreateBadge(R.id.navigation_absen);
 
@@ -47,6 +45,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        viewModel.getProfileData().observe(this, profile -> preference.setProfile(profile));
+        viewModel.getProfileData().observe(this, profile -> {
+            badge.setVisible(!profile.isAbsen());
+            preference.setProfile(profile);
+        });
+
     }
 }

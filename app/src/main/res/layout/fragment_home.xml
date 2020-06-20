@@ -52,16 +52,6 @@
             android:textStyle="bold"
             tools:text="@string/absened" />
 
-        <TextView
-            android:id="@+id/tvInSchool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            tools:text="@string/inSchool" />
-
     </LinearLayout>
 
     <LinearLayout

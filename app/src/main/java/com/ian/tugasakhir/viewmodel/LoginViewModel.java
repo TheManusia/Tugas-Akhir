@@ -32,7 +32,7 @@ public class LoginViewModel extends ViewModel {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String result = new String(responseBody);
-                    Log.e("TAG", "onSuccess: " +result);
+                    Log.e("TAG", "onSuccess: " + result);
                     JSONObject responseObject = new JSONObject(result);
 
                     Response response = new Response();

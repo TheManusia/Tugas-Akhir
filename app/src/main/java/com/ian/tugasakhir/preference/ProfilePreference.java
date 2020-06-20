@@ -44,7 +44,7 @@ public class ProfilePreference {
         profile.setAbsen(sharedPreferences.getBoolean(KEY_ABSEN, false));
         profile.setHadir(sharedPreferences.getInt(KEY_HADIR, 0));
         profile.setIzin(sharedPreferences.getInt(KEY_IZIN, 0));
-        profile.setAlpa(sharedPreferences.getInt(KEY_ALPA,0));
+        profile.setAlpa(sharedPreferences.getInt(KEY_ALPA, 0));
         profile.setSession(sharedPreferences.getBoolean(KEY_SESSION, false));
 
         return profile;
