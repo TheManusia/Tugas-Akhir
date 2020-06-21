@@ -44,6 +44,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.jakewharton:butterknife:10.2.1'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
