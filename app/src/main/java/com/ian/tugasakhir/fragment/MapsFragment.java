@@ -103,7 +103,7 @@ public class MapsFragment extends Fragment {
     public void absen() {
         if (PolyUtil.containsLocation(getLatitude(), getLongitude(), points, true)) {
             viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MapViewModel.class);
-            homeViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
+            homeViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
             homeViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
                 String username = profile.getId();
                 viewModel.setResponse(username);

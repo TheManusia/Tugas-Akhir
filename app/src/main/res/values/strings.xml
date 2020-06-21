@@ -17,9 +17,9 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_home">MainActivity</string>
     <string name="rekap_absen">Rekap Absen</string>
-    <string name="hadir">Hadir : %s</string>
-    <string name="izin">Izin : %s</string>
-    <string name="alpa">Alpa : %s</string>
+    <string name="hadir">Hadir : %d</string>
+    <string name="izin">Izin : %d</string>
+    <string name="alpa">Alpa : %d</string>
     <string name="setting">Setting</string>
     <string name="logout">Logout</string>
     <string name="kehadiran">Kehadiran</string>
