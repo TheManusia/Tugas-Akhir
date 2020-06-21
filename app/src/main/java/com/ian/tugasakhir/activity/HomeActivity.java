@@ -1,7 +1,6 @@
 package com.ian.tugasakhir.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +13,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ian.tugasakhir.R;
 import com.ian.tugasakhir.preference.ProfilePreference;
 import com.ian.tugasakhir.viewmodel.HomeViewModel;
+
+import java.util.Calendar;
 
 import static com.ian.tugasakhir.activity.LoginActivity.KEY_ID;
 
@@ -46,7 +47,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setData() {
         viewModel.getProfileData().observe(this, profile -> {
-            badge.setVisible(!profile.isAbsen());
+            Calendar calendar = Calendar.getInstance();
+            int day = calendar.get(Calendar.DAY_OF_WEEK);
+            if (day == Calendar.SATURDAY || day == Calendar.SUNDAY) {
+                badge.setVisible(false);
+            } else {
+                badge.setVisible(!profile.isAbsen());
+            }
             preference.setProfile(profile);
         });
 
