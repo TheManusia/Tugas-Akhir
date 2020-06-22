@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tugas Akhir</string>
+    <string name="app_name">GoPreSence</string>
     <string name="hai">Hai, </string>
     <string name="not_absen">Hari ini anda belum absen</string>
     <string name="absened">Hari ini anda sudah absen</string>
