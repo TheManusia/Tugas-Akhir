@@ -5,49 +5,45 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ian.tugasakhir.BuildConfig;
-import com.ian.tugasakhir.model.Laporan;
+import com.ian.tugasakhir.model.Response;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.Header;
 
-public class ProfileViewModel extends ViewModel {
-    private MutableLiveData<ArrayList<Laporan>> listLaporan = new MutableLiveData<>();
+public class SettingViewModel extends ViewModel {
+    private MutableLiveData<Response> responseList = new MutableLiveData<>();
 
-    public LiveData<ArrayList<Laporan>> getListLaporan() {
-        return listLaporan;
+    public LiveData<Response> getResponseList() {
+        return responseList;
     }
 
-    public void setListLaporan(String username) {
-        final ArrayList<Laporan> list = new ArrayList<>();
-
-        String url = BuildConfig.SERVER + "get_laporan.php";
+    public void setResponse(String username, String nama, String gambar, String password, String newpass) {
+        String url = BuildConfig.SERVER + "proses_edit.php";
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
+        params.put("nama", nama);
         params.put("username", username);
+        params.put("password", password);
+        params.put("newpassword", newpass);
+        params.put("gambar", gambar);
+
         client.post(url, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
                     String result = new String(responseBody);
-                    JSONArray resultArray = new JSONArray(result);
+                    JSONObject resultObj = new JSONObject(result);
 
-                    for (int i = 0; i < resultArray.length(); i++) {
-                        JSONObject user = resultArray.getJSONObject(i);
-                        Laporan laporan = new Laporan();
-                        laporan.setTanggal(user.getString("tanggal"));
-                        laporan.setType(user.getString("type"));
-                        list.add(laporan);
-                    }
-                    listLaporan.postValue(list);
+                    Response response = new Response();
+                    response.setMessage(resultObj.getString("message"));
+                    response.setSuccess(resultObj.getInt("success"));
+                    responseList.setValue(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -58,7 +54,5 @@ public class ProfileViewModel extends ViewModel {
 
             }
         });
-
-
     }
 }

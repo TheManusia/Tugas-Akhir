@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,7 +104,7 @@ public class MapsFragment extends Fragment {
     public void absen() {
         if (PolyUtil.containsLocation(getLatitude(), getLongitude(), points, true)) {
             viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MapViewModel.class);
-            homeViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
+            homeViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
             homeViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
                 String username = profile.getId();
                 viewModel.setResponse(username);
