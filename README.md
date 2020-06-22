@@ -5,6 +5,8 @@
 [![GitHub version](https://badge.fury.io/gh/Naereen%2FStrapDown.js.svg)](https://github.com/TheManusia/Tugas-Akhir/releases/)
 [![Made With Love](https://img.shields.io/badge/Made%20With-Love-orange.svg)](https://github.com/chetanraj/awesome-github-badges)
 
+Tugas akhir seorang siswa yang bersekolah di sebuah SMK di Kota Malang.
+
 ## Installation
 
 * Download GoPreSence [Versi Terbaru](https://github.com/TheManusia/Tugas-Akhir/releases/)
