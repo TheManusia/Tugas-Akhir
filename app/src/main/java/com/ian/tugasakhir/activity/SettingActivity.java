@@ -140,6 +140,7 @@ public class SettingActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, HomeActivity.class);
                     intent.putExtra(KEY_ID, username);
                     startActivity(intent);
+                    finish();
                 } else {
                     dialog.dismiss();
                     Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
