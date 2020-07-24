@@ -19,6 +19,9 @@ Tugas akhir seorang siswa yang bersekolah di sebuah SMK di Kota Malang.
 * v1.0
     * Release
 
+* v1.1
+    * Memperbaiki bug Toast
+
 ## Meta
 
 Ian – [Facebook](https://facebook.com/Ian.TheManusia) – ian@themanusia.xyz
