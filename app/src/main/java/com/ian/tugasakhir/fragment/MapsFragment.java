@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,8 +28,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.PolyUtil;
 import com.ian.tugasakhir.R;
+import com.ian.tugasakhir.model.Response;
+import com.ian.tugasakhir.service.Network;
 import com.ian.tugasakhir.viewmodel.HomeViewModel;
-import com.ian.tugasakhir.viewmodel.MapViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,18 +38,22 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MapsFragment extends Fragment {
     @BindView(R.id.btnAbsen)
     Button btnAbsen;
 
-    MapViewModel viewModel;
+    @BindView(R.id.pbAbsen)
+    ProgressBar pbAbsen;
+
     HomeViewModel homeViewModel;
     GoogleMap mGoogleMap;
-    List<LatLng> points = new ArrayList<>();
+    final List<LatLng> points = new ArrayList<>();
 
     @SuppressLint("MissingPermission")
-    private OnMapReadyCallback callback = googleMap -> {
+    private final OnMapReadyCallback callback = googleMap -> {
         mGoogleMap = googleMap;
         points.add(new LatLng(-7.927215, 112.602200));
         points.add(new LatLng(-7.927304, 112.602122));
@@ -86,6 +92,7 @@ public class MapsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         ButterKnife.bind(this, view);
+        pbAbsen.setVisibility(View.GONE);
         return view;
     }
 
@@ -101,23 +108,38 @@ public class MapsFragment extends Fragment {
 
     @OnClick(R.id.btnAbsen)
     public void absen() {
+        pbAbsen.setVisibility(View.VISIBLE);
         if (PolyUtil.containsLocation(getLatitude(), getLongitude(), points, true)) {
-            viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MapViewModel.class);
             homeViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
             homeViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
                 String username = profile.getId();
-                viewModel.setResponse(username);
-                viewModel.getResponseData().observe(getViewLifecycleOwner(), response -> {
-                    if (response.getSuccess() > 0) {
-                        Toast.makeText(getContext(), "Berhasil Absen", Toast.LENGTH_SHORT).show();
-                        profile.setAbsen(true);
-                    } else {
-                        Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Network.getService()
+                        .absen(username)
+                        .enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
+                                Response responseData = response.body();
+                                if (responseData != null) {
+                                    if (responseData.getSuccess() > 0) {
+                                        Toast.makeText(getContext(), "Berhasil Absen", Toast.LENGTH_SHORT).show();
+                                        profile.setAbsen(true);
+                                    } else {
+                                        Toast.makeText(getContext(), responseData.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                pbAbsen.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+                                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                pbAbsen.setVisibility(View.GONE);
+                            }
+                        });
             });
         } else {
             Toast.makeText(getContext(), "Anda tidak berada di sekolah", Toast.LENGTH_SHORT).show();
+            pbAbsen.setVisibility(View.GONE);
         }
     }
 

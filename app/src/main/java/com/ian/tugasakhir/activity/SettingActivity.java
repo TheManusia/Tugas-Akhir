@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,15 +20,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ian.tugasakhir.R;
 import com.ian.tugasakhir.helper.Converter;
 import com.ian.tugasakhir.model.Profile;
+import com.ian.tugasakhir.model.Response;
 import com.ian.tugasakhir.preference.ProfilePreference;
-import com.ian.tugasakhir.viewmodel.SettingViewModel;
+import com.ian.tugasakhir.service.Network;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -36,6 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.ian.tugasakhir.activity.LoginActivity.KEY_ID;
 
@@ -64,7 +67,6 @@ public class SettingActivity extends AppCompatActivity {
     @BindView(R.id.pbEdit)
     ProgressBar pbEdit;
 
-    SettingViewModel viewModel;
     ProfilePreference preference;
     Bitmap gambar;
     Profile profile;
@@ -76,8 +78,6 @@ public class SettingActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         preference = new ProfilePreference(this);
         profile = preference.getProfile();
-
-        viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(SettingViewModel.class);
 
         Glide.with(this)
                 .load(profile.getGambar())
@@ -131,22 +131,37 @@ public class SettingActivity extends AppCompatActivity {
         if (!newPass.equals(confPass)) {
             Toast.makeText(this, "Password tidak sama", Toast.LENGTH_SHORT).show();
         } else {
-            viewModel.setResponse(username, name, newPicture, password, newPass);
-            viewModel.getResponseList().observe(this, response -> {
-                if (response.getSuccess() > 0) {
-                    Toast.makeText(this, "Berhasil mengubah profile", Toast.LENGTH_SHORT).show();
-                    profile.setUsername(name);
-                    profile.setId(username);
-                    Intent intent = new Intent(this, HomeActivity.class);
-                    intent.putExtra(KEY_ID, username);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    dialog.dismiss();
-                    Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                pbEdit.setVisibility(View.GONE);
-            });
+            Network.getService()
+                    .editProfile(name, username, password, newPass, newPicture)
+                    .enqueue(new Callback<Response>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
+                            Response responseData = response.body();
+                            if (responseData != null) {
+                                if (responseData.getSuccess() > 0) {
+                                    Toast.makeText(SettingActivity.this, "Berhasil mengubah profile", Toast.LENGTH_SHORT).show();
+                                    profile.setUsername(name);
+                                    profile.setId(username);
+                                    Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
+                                    intent.putExtra(KEY_ID, username);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    dialog.dismiss();
+                                    Toast.makeText(SettingActivity.this, responseData.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            pbEdit.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+                            Toast.makeText(SettingActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("TAG", "onFailure: " + t);
+                            pbEdit.setVisibility(View.GONE);
+                            dialog.dismiss();
+                        }
+                    });
         }
 
     }

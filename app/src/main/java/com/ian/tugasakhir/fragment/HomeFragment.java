@@ -52,12 +52,12 @@ public class HomeFragment extends Fragment {
             if (profile.isAbsen()) {
                 Glide.with(this)
                         .load(R.drawable.ic_baseline_check_240)
-                        .apply(new RequestOptions().override(300,300))
+                        .apply(new RequestOptions().override(300, 300))
                         .into(status);
             } else {
                 Glide.with(this)
                         .load(R.drawable.ic_baseline_clear_24)
-                        .apply(new RequestOptions().override(300,300))
+                        .apply(new RequestOptions().override(300, 300))
                         .into(status);
             }
             pbHome.setVisibility(View.GONE);

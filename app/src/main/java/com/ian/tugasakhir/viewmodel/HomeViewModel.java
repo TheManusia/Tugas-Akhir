@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class HomeViewModel extends ViewModel {
-    private MutableLiveData<Profile> profileData = new MutableLiveData<>();
+    private final MutableLiveData<Profile> profileData = new MutableLiveData<>();
 
     public void setProfileData(String username) {
         String url = BuildConfig.SERVER + "get_profile.php";

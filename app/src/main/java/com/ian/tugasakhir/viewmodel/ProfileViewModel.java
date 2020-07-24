@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileViewModel extends ViewModel {
-    private MutableLiveData<ArrayList<Laporan>> listLaporan = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Laporan>> listLaporan = new MutableLiveData<>();
 
     public LiveData<ArrayList<Laporan>> getListLaporan() {
         return listLaporan;

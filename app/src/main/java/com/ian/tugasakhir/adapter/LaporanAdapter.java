@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LaporanAdapter extends RecyclerView.Adapter<LaporanAdapter.ViewHolder> {
-    private ArrayList<Laporan> mData;
+    private final ArrayList<Laporan> mData;
 
     public LaporanAdapter(ArrayList<Laporan> mData) {
         this.mData = mData;
