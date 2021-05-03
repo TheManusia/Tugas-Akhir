@@ -1,9 +1,9 @@
-package com.ian.tugasakhir.preference;
+package com.ian.tugasakhir.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.ian.tugasakhir.model.Profile;
+import com.ian.tugasakhir.data.Profile;
 
 public class ProfilePreference {
     private static final String KEY_PREF_NAME = "PREFNAME";

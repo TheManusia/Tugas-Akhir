@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.fragment;
+package com.ian.tugasakhir.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,14 +22,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.activity.LoginActivity;
-import com.ian.tugasakhir.activity.SettingActivity;
-import com.ian.tugasakhir.adapter.LaporanAdapter;
-import com.ian.tugasakhir.model.Laporan;
-import com.ian.tugasakhir.model.Profile;
-import com.ian.tugasakhir.preference.ProfilePreference;
-import com.ian.tugasakhir.viewmodel.HomeViewModel;
-import com.ian.tugasakhir.viewmodel.ProfileViewModel;
+import com.ian.tugasakhir.ui.login.LoginActivity;
+import com.ian.tugasakhir.ui.setting.SettingActivity;
+import com.ian.tugasakhir.data.Laporan;
+import com.ian.tugasakhir.data.Profile;
+import com.ian.tugasakhir.tools.ProfilePreference;
+import com.ian.tugasakhir.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
 
@@ -75,7 +73,7 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView rvProfile;
 
-    LaporanAdapter adapter;
+    ProfileAdapter adapter;
     HomeViewModel homeViewModel;
     ProfileViewModel viewModel;
 
@@ -122,7 +120,7 @@ public class ProfileFragment extends Fragment {
     private void setLaporan(ArrayList<Laporan> laporans) {
         rvProfile.setHasFixedSize(true);
         rvProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new LaporanAdapter(laporans);
+        adapter = new ProfileAdapter(laporans);
         rvProfile.setAdapter(adapter);
     }
 

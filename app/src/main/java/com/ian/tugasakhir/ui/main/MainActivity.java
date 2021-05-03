@@ -1,4 +1,4 @@
-package com.ian.tugasakhir;
+package com.ian.tugasakhir.ui.main;
 
 import android.Manifest;
 import android.app.ActivityOptions;
@@ -13,10 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.ian.tugasakhir.activity.HomeActivity;
-import com.ian.tugasakhir.activity.LoginActivity;
-import com.ian.tugasakhir.model.Profile;
-import com.ian.tugasakhir.preference.ProfilePreference;
+import com.ian.tugasakhir.R;
+import com.ian.tugasakhir.ui.home.HomeActivity;
+import com.ian.tugasakhir.ui.login.LoginActivity;
+import com.ian.tugasakhir.data.Profile;
+import com.ian.tugasakhir.tools.ProfilePreference;
 
 public class MainActivity extends AppCompatActivity {
     Profile profile;

@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.adapter;
+package com.ian.tugasakhir.ui.profile;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.model.Laporan;
+import com.ian.tugasakhir.data.Laporan;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LaporanAdapter extends RecyclerView.Adapter<LaporanAdapter.ViewHolder> {
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
     private final ArrayList<Laporan> mData;
 
-    public LaporanAdapter(ArrayList<Laporan> mData) {
+    public ProfileAdapter(ArrayList<Laporan> mData) {
         this.mData = mData;
     }
 

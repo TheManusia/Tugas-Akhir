@@ -1,11 +1,11 @@
-package com.ian.tugasakhir.viewmodel;
+package com.ian.tugasakhir.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ian.tugasakhir.BuildConfig;
-import com.ian.tugasakhir.model.Profile;
+import com.ian.tugasakhir.data.Profile;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;

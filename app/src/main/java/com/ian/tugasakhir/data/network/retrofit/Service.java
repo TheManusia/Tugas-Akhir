@@ -1,6 +1,6 @@
-package com.ian.tugasakhir.service;
+package com.ian.tugasakhir.data.network.retrofit;
 
-import com.ian.tugasakhir.model.Response;
+import com.ian.tugasakhir.data.Response;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

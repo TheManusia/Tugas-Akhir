@@ -6,19 +6,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.ian.tugasakhir.fragment.HomeFragment"
+        android:name="com.ian.tugasakhir.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_absen"
-        android:name="com.ian.tugasakhir.fragment.MapsFragment"
+        android:name="com.ian.tugasakhir.ui.maps.MapsFragment"
         android:label="@string/title_absen"
         tools:layout="@layout/fragment_maps" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.ian.tugasakhir.fragment.ProfileFragment"
+        android:name="com.ian.tugasakhir.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

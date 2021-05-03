@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.activity;
+package com.ian.tugasakhir.ui.setting;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,11 +24,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.helper.Converter;
-import com.ian.tugasakhir.model.Profile;
-import com.ian.tugasakhir.model.Response;
-import com.ian.tugasakhir.preference.ProfilePreference;
-import com.ian.tugasakhir.service.Network;
+import com.ian.tugasakhir.tools.Converter;
+import com.ian.tugasakhir.data.Profile;
+import com.ian.tugasakhir.data.Response;
+import com.ian.tugasakhir.tools.ProfilePreference;
+import com.ian.tugasakhir.data.network.retrofit.Network;
+import com.ian.tugasakhir.ui.home.HomeActivity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -40,7 +41,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.ian.tugasakhir.activity.LoginActivity.KEY_ID;
+import static com.ian.tugasakhir.ui.login.LoginActivity.KEY_ID;
 
 public class SettingActivity extends AppCompatActivity {
     @BindView(R.id.toolbarSetting)

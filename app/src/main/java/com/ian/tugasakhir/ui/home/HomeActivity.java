@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.activity;
+package com.ian.tugasakhir.ui.home;
 
 import android.os.Bundle;
 
@@ -11,12 +11,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.preference.ProfilePreference;
-import com.ian.tugasakhir.viewmodel.HomeViewModel;
+import com.ian.tugasakhir.tools.ProfilePreference;
 
 import java.util.Calendar;
 
-import static com.ian.tugasakhir.activity.LoginActivity.KEY_ID;
+import static com.ian.tugasakhir.ui.login.LoginActivity.KEY_ID;
 
 public class HomeActivity extends AppCompatActivity {
 

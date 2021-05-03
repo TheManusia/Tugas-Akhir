@@ -1,13 +1,16 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.ian.tugasakhir"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion 22
+        targetSdkVersion 30
         versionCode 1
         versionName "1.1"
 
@@ -18,10 +21,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String" , "SERVER", '\"https://themanusia.xyz/Android/Absensi/\"')
+            buildConfigField("String" , "SERVER", '\"http://192.168.100.44/Absensi/\"')
         }
         debug {
-            buildConfigField("String" , "SERVER", '\"https://themanusia.xyz/Android/Absensi/\"')
+            buildConfigField("String" , "SERVER", '\"http://192.168.100.44/Absensi/\"')
         }
     }
     compileOptions {

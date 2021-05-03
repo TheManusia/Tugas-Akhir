@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.model;
+package com.ian.tugasakhir.data;
 
 import com.google.gson.annotations.SerializedName;
 

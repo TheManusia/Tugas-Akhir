@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.fragment;
+package com.ian.tugasakhir.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.viewmodel.HomeViewModel;
+import com.ian.tugasakhir.ui.home.HomeViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

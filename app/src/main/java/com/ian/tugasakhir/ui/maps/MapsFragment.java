@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.fragment;
+package com.ian.tugasakhir.ui.maps;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -28,9 +28,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.PolyUtil;
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.model.Response;
-import com.ian.tugasakhir.service.Network;
-import com.ian.tugasakhir.viewmodel.HomeViewModel;
+import com.ian.tugasakhir.data.Response;
+import com.ian.tugasakhir.data.network.retrofit.Network;
+import com.ian.tugasakhir.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

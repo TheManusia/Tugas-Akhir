@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.service;
+package com.ian.tugasakhir.data.network.retrofit;
 
 import com.ian.tugasakhir.BuildConfig;
 

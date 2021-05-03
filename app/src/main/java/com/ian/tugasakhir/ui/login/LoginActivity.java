@@ -1,4 +1,4 @@
-package com.ian.tugasakhir.activity;
+package com.ian.tugasakhir.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.model.Response;
-import com.ian.tugasakhir.service.Network;
+import com.ian.tugasakhir.data.Response;
+import com.ian.tugasakhir.data.network.retrofit.Network;
+import com.ian.tugasakhir.ui.home.HomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
