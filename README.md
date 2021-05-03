@@ -24,7 +24,7 @@ Tugas akhir seorang siswa yang bersekolah di sebuah SMK di Kota Malang.
 
 ## Meta
 
-Ian – [Facebook](https://facebook.com/Ian.TheManusia) – ian@themanusia.xyz
+Ian – [Facebook](https://facebook.com/Ian.TheManusia) – minecraftindo0@gmail.com
 
 Distributed under the GPL license. See [LICENSE](https://github.com/TheManusia/Tugas-Akhir/blob/master/LICENSE) for more information.
 
