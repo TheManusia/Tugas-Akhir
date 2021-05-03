@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -30,31 +27,22 @@ import com.google.maps.android.PolyUtil;
 import com.ian.tugasakhir.R;
 import com.ian.tugasakhir.data.Response;
 import com.ian.tugasakhir.data.network.retrofit.Network;
+import com.ian.tugasakhir.databinding.FragmentMapsBinding;
 import com.ian.tugasakhir.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class MapsFragment extends Fragment {
-    @BindView(R.id.btnAbsen)
-    Button btnAbsen;
+    private FragmentMapsBinding binding;
 
-    @BindView(R.id.pbAbsen)
-    ProgressBar pbAbsen;
-
-    HomeViewModel homeViewModel;
-    GoogleMap mGoogleMap;
-    final List<LatLng> points = new ArrayList<>();
+    private final List<LatLng> points = new ArrayList<>();
 
     @SuppressLint("MissingPermission")
     private final OnMapReadyCallback callback = googleMap -> {
-        mGoogleMap = googleMap;
         points.add(new LatLng(-7.927215, 112.602200));
         points.add(new LatLng(-7.927304, 112.602122));
         points.add(new LatLng(-7.927326, 112.602322));
@@ -90,9 +78,11 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_maps, container, false);
-        ButterKnife.bind(this, view);
-        pbAbsen.setVisibility(View.GONE);
+        binding = FragmentMapsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        binding.pbAbsen.setVisibility(View.GONE);
+
+        binding.btnAbsen.setOnClickListener(v -> absen());
         return view;
     }
 
@@ -106,11 +96,16 @@ public class MapsFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.btnAbsen)
-    public void absen() {
-        pbAbsen.setVisibility(View.VISIBLE);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    private void absen() {
+        binding.pbAbsen.setVisibility(View.VISIBLE);
         if (PolyUtil.containsLocation(getLatitude(), getLongitude(), points, true)) {
-            homeViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
+            HomeViewModel homeViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
             homeViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
                 String username = profile.getId();
                 Network.getService()
@@ -127,19 +122,19 @@ public class MapsFragment extends Fragment {
                                         Toast.makeText(getContext(), responseData.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                pbAbsen.setVisibility(View.GONE);
+                                binding.pbAbsen.setVisibility(View.GONE);
                             }
 
                             @Override
                             public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
                                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                pbAbsen.setVisibility(View.GONE);
+                                binding.pbAbsen.setVisibility(View.GONE);
                             }
                         });
             });
         } else {
             Toast.makeText(getContext(), "Anda tidak berada di sekolah", Toast.LENGTH_SHORT).show();
-            pbAbsen.setVisibility(View.GONE);
+            binding.pbAbsen.setVisibility(View.GONE);
         }
     }
 

@@ -11,89 +11,63 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.tools.Converter;
 import com.ian.tugasakhir.data.Profile;
 import com.ian.tugasakhir.data.Response;
-import com.ian.tugasakhir.tools.ProfilePreference;
 import com.ian.tugasakhir.data.network.retrofit.Network;
+import com.ian.tugasakhir.databinding.ActivitySettingBinding;
+import com.ian.tugasakhir.tools.Converter;
+import com.ian.tugasakhir.tools.ProfilePreference;
 import com.ian.tugasakhir.ui.home.HomeActivity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 import static com.ian.tugasakhir.ui.login.LoginActivity.KEY_ID;
 
 public class SettingActivity extends AppCompatActivity {
-    @BindView(R.id.toolbarSetting)
-    Toolbar toolbarSetting;
+    private ActivitySettingBinding binding;
 
-    @BindView(R.id.civAvatarEdit)
-    CircleImageView civAvatar;
-
-    @BindView(R.id.edtName)
-    EditText edtName;
-
-    @BindView(R.id.btnUpload)
-    Button btnUpload;
-
-    @BindView(R.id.edtNewPass)
-    EditText edtNewPass;
-
-    @BindView(R.id.edtConfPass)
-    EditText edtConfPass;
-
-    @BindView(R.id.btnEdit)
-    Button btnEdit;
-
-    @BindView(R.id.pbEdit)
-    ProgressBar pbEdit;
-
-    ProfilePreference preference;
-    Bitmap gambar;
-    Profile profile;
+    private Bitmap gambar;
+    private Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        ButterKnife.bind(this);
-        preference = new ProfilePreference(this);
+        binding = ActivitySettingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        ProfilePreference preference = new ProfilePreference(this);
         profile = preference.getProfile();
 
         Glide.with(this)
                 .load(profile.getGambar())
                 .apply(new RequestOptions().override(150, 150))
                 .error(R.drawable.ic_baseline_person_24)
-                .into(civAvatar);
+                .into(binding.civAvatarEdit);
 
-        edtName.setText(profile.getUsername());
+        binding.edtName.setText(profile.getUsername());
 
-        setSupportActionBar(toolbarSetting);
+        setSupportActionBar(binding.toolbarSetting);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(profile.getId());
         }
-        pbEdit.setVisibility(View.GONE);
+        binding.pbEdit.setVisibility(View.GONE);
+
+        binding.btnEdit.setOnClickListener(v -> validation());
+        binding.btnUpload.setOnClickListener(v -> getGambar());
     }
 
     @Override
@@ -105,8 +79,7 @@ public class SettingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.btnEdit)
-    void validation() {
+    private void validation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Masukkan Password Anda");
 
@@ -122,11 +95,11 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void doEdit(String password, DialogInterface dialog) {
-        pbEdit.setVisibility(View.VISIBLE);
+        binding.pbEdit.setVisibility(View.VISIBLE);
         String username = profile.getId();
-        String name = edtName.getText().toString().trim();
-        String newPass = edtNewPass.getText().toString().trim();
-        String confPass = edtConfPass.getText().toString().trim();
+        String name = binding.edtName.getText().toString().trim();
+        String newPass = binding.edtNewPass.getText().toString().trim();
+        String confPass = binding.edtConfPass.getText().toString().trim();
         String newPicture = Converter.bitmapToString(gambar);
 
         if (!newPass.equals(confPass)) {
@@ -152,14 +125,14 @@ public class SettingActivity extends AppCompatActivity {
                                     Toast.makeText(SettingActivity.this, responseData.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            pbEdit.setVisibility(View.GONE);
+                            binding.pbEdit.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
                             Toast.makeText(SettingActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.e("TAG", "onFailure: " + t);
-                            pbEdit.setVisibility(View.GONE);
+                            binding.pbEdit.setVisibility(View.GONE);
                             dialog.dismiss();
                         }
                     });
@@ -167,8 +140,7 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.btnUpload)
-    void getGambar() {
+    private void getGambar() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, 1);
@@ -193,7 +165,7 @@ public class SettingActivity extends AppCompatActivity {
                 Glide.with(this)
                         .load(selectedImage)
                         .apply(new RequestOptions())
-                        .into(civAvatar);
+                        .into(binding.civAvatarEdit);
                 gambar = selectedImage;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

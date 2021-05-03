@@ -27,6 +27,11 @@ android {
             buildConfigField("String" , "SERVER", '\"http://192.168.100.44/Absensi/\"')
         }
     }
+
+    viewBinding {
+        enabled = true
+    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -46,7 +51,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'com.jakewharton:butterknife:10.2.1'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

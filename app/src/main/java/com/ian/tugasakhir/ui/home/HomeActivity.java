@@ -9,8 +9,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ian.tugasakhir.R;
+import com.ian.tugasakhir.databinding.ActivityHomeBinding;
 import com.ian.tugasakhir.tools.ProfilePreference;
 
 import java.util.Calendar;
@@ -18,20 +18,21 @@ import java.util.Calendar;
 import static com.ian.tugasakhir.ui.login.LoginActivity.KEY_ID;
 
 public class HomeActivity extends AppCompatActivity {
+    private ActivityHomeBinding binding;
 
-    HomeViewModel viewModel;
-    BadgeDrawable badge;
-    ProfilePreference preference;
-    String id;
+    private HomeViewModel viewModel;
+    private BadgeDrawable badge;
+    private ProfilePreference preference;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(navView, navController);
+        NavigationUI.setupWithNavController(binding.navView, navController);
 
         preference = new ProfilePreference(this);
         id = getIntent().getStringExtra(KEY_ID);
@@ -39,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
         viewModel.setProfileData(id);
 
-        badge = navView.getOrCreateBadge(R.id.navigation_absen);
+        badge = binding.navView.getOrCreateBadge(R.id.navigation_absen);
 
         setData();
     }
