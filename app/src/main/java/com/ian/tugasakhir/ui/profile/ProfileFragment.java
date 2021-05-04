@@ -33,7 +33,6 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
 
     private HomeViewModel homeViewModel;
-    private ProfileViewModel viewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,10 +40,10 @@ public class ProfileFragment extends Fragment {
         View view = binding.getRoot();
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
 
-        binding.pbProfile.setVisibility(View.VISIBLE);
         ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
         homeViewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel.class);
         homeViewModel.getProfileData().observe(getViewLifecycleOwner(), this::setData);
+        homeViewModel.isLoading().observe(getViewLifecycleOwner(), this::pbController);
 
         binding.collapsingToolbar.setCollapsedTitleTextColor(ContextCompat.getColor(requireActivity(), R.color.white));
         binding.collapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(requireActivity(), R.color.transparent));
@@ -79,11 +78,18 @@ public class ProfileFragment extends Fragment {
         binding.tvAlpa.setText(alpa);
 
         ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(ProfileViewModel.class);
+        ProfileViewModel viewModel = new ViewModelProvider(this, viewModelFactory).get(ProfileViewModel.class);
         viewModel.setUsername(profile.getId());
         viewModel.getListLaporan().observe(getViewLifecycleOwner(), this::setLaporan);
 
-        binding.pbProfile.setVisibility(View.GONE);
+        viewModel.isLoading().observe(this, this::pbController);
+    }
+
+    private void pbController(boolean status) {
+        if (status)
+            binding.pbProfile.setVisibility(View.VISIBLE);
+        else
+            binding.pbProfile.setVisibility(View.GONE);
     }
 
     private void setLaporan(List<Laporan> laporans) {

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ian.tugasakhir.data.Laporan;
 import com.ian.tugasakhir.databinding.KehadiranItemsBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {

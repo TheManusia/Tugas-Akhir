@@ -24,10 +24,15 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        binding.pbHome.setVisibility(View.VISIBLE);
-
         ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
         HomeViewModel viewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel.class);
+
+        viewModel.isLoading().observe(getViewLifecycleOwner(), aBoolean -> {
+            if (aBoolean)
+                binding.pbHome.setVisibility(View.VISIBLE);
+            else
+                binding.pbHome.setVisibility(View.GONE);
+        });
 
         viewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
             String absen = profile.isAbsen() ? getString(R.string.absened) : getString(R.string.not_absen);
@@ -45,7 +50,6 @@ public class HomeFragment extends Fragment {
                         .apply(new RequestOptions().override(300, 300))
                         .into(binding.status);
             }
-            binding.pbHome.setVisibility(View.GONE);
         });
         return view;
     }

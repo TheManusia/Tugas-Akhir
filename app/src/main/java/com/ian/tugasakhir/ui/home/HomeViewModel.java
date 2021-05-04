@@ -21,4 +21,8 @@ public class HomeViewModel extends ViewModel {
     public LiveData<Profile> getProfileData() {
         return repository.getProfile(username);
     }
+
+    public LiveData<Boolean> isLoading() {
+        return repository.isLoading();
+    }
 }
