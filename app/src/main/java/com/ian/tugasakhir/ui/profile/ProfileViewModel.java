@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.ian.tugasakhir.BuildConfig;
 import com.ian.tugasakhir.data.Laporan;
+import com.ian.tugasakhir.data.source.Repository;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -15,50 +16,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileViewModel extends ViewModel {
-    private final MutableLiveData<ArrayList<Laporan>> listLaporan = new MutableLiveData<>();
+    private final Repository repository;
+    private String username;
 
-    public LiveData<ArrayList<Laporan>> getListLaporan() {
-        return listLaporan;
+    public ProfileViewModel(Repository repository) {
+        this.repository = repository;
     }
 
-    public void setListLaporan(String username) {
-        final ArrayList<Laporan> list = new ArrayList<>();
+    public LiveData<List<Laporan>> getListLaporan() {
+        return repository.getLaporan(username);
+    }
 
-        String url = BuildConfig.SERVER + "get_laporan.php";
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.put("username", username);
-        client.post(url, params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-                    String result = new String(responseBody);
-                    JSONArray resultArray = new JSONArray(result);
-
-                    for (int i = 0; i < resultArray.length(); i++) {
-                        JSONObject user = resultArray.getJSONObject(i);
-                        Laporan laporan = new Laporan();
-                        laporan.setTanggal(user.getString("tanggal"));
-                        laporan.setType(user.getString("type"));
-                        list.add(laporan);
-                    }
-                    listLaporan.postValue(list);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-
-
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

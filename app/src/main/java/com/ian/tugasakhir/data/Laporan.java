@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class Laporan {
     @SerializedName("tanggal")
-    String tanggal;
+    private String tanggal;
     @SerializedName("type")
-    String type;
+    private String type;
 }

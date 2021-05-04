@@ -25,21 +25,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.PolyUtil;
 import com.ian.tugasakhir.R;
-import com.ian.tugasakhir.data.Response;
-import com.ian.tugasakhir.data.network.retrofit.Network;
 import com.ian.tugasakhir.databinding.FragmentMapsBinding;
+import com.ian.tugasakhir.network.ApiConfig;
 import com.ian.tugasakhir.ui.home.HomeViewModel;
+import com.ian.tugasakhir.viewmodel.ViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class MapsFragment extends Fragment {
     private FragmentMapsBinding binding;
 
     private final List<LatLng> points = new ArrayList<>();
+    private MapsViewModel viewModel;
 
     @SuppressLint("MissingPermission")
     private final OnMapReadyCallback callback = googleMap -> {
@@ -82,6 +80,14 @@ public class MapsFragment extends Fragment {
         View view = binding.getRoot();
         binding.pbAbsen.setVisibility(View.GONE);
 
+        ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(MapsViewModel.class);
+        viewModel.isLoading().observe(getViewLifecycleOwner(), aBoolean -> {
+            if (aBoolean)
+                binding.pbAbsen.setVisibility(View.VISIBLE);
+            else
+                binding.pbAbsen.setVisibility(View.GONE);
+        });
         binding.btnAbsen.setOnClickListener(v -> absen());
         return view;
     }
@@ -105,32 +111,19 @@ public class MapsFragment extends Fragment {
     private void absen() {
         binding.pbAbsen.setVisibility(View.VISIBLE);
         if (PolyUtil.containsLocation(getLatitude(), getLongitude(), points, true)) {
-            HomeViewModel homeViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
+            ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
+            HomeViewModel homeViewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel.class);
             homeViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
                 String username = profile.getId();
-                Network.getService()
-                        .absen(username)
-                        .enqueue(new Callback<Response>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-                                Response responseData = response.body();
-                                if (responseData != null) {
-                                    if (responseData.getSuccess() > 0) {
-                                        Toast.makeText(getContext(), "Berhasil Absen", Toast.LENGTH_SHORT).show();
-                                        profile.setAbsen(true);
-                                    } else {
-                                        Toast.makeText(getContext(), responseData.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                binding.pbAbsen.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-                                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                binding.pbAbsen.setVisibility(View.GONE);
-                            }
-                        });
+                viewModel.setUsername(username);
+                viewModel.absen().observe(getViewLifecycleOwner(), response -> {
+                    if (response.getSuccess() > 0) {
+                        Toast.makeText(getContext(), "Berhasil Absen", Toast.LENGTH_SHORT).show();
+                        profile.setAbsen(true);
+                    } else {
+                        Toast.makeText(getContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
         } else {
             Toast.makeText(getContext(), "Anda tidak berada di sekolah", Toast.LENGTH_SHORT).show();

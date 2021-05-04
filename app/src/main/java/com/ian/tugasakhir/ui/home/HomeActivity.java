@@ -11,7 +11,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.badge.BadgeDrawable;
 import com.ian.tugasakhir.R;
 import com.ian.tugasakhir.databinding.ActivityHomeBinding;
+import com.ian.tugasakhir.network.ApiConfig;
 import com.ian.tugasakhir.tools.ProfilePreference;
+import com.ian.tugasakhir.ui.maps.MapsViewModel;
+import com.ian.tugasakhir.viewmodel.ViewModelFactory;
 
 import java.util.Calendar;
 
@@ -37,7 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         preference = new ProfilePreference(this);
         id = getIntent().getStringExtra(KEY_ID);
 
-        viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
+        ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(HomeViewModel.class);
         viewModel.setProfileData(id);
 
         badge = binding.navView.getOrCreateBadge(R.id.navigation_absen);

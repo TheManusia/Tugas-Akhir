@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ian.tugasakhir.R;
 import com.ian.tugasakhir.databinding.FragmentHomeBinding;
+import com.ian.tugasakhir.network.ApiConfig;
+import com.ian.tugasakhir.viewmodel.ViewModelFactory;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
@@ -24,7 +26,8 @@ public class HomeFragment extends Fragment {
 
         binding.pbHome.setVisibility(View.VISIBLE);
 
-        HomeViewModel viewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
+        ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
+        HomeViewModel viewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel.class);
 
         viewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
             String absen = profile.isAbsen() ? getString(R.string.absened) : getString(R.string.not_absen);

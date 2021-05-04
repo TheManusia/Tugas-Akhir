@@ -1,6 +1,10 @@
-package com.ian.tugasakhir.data.network.retrofit;
+package com.ian.tugasakhir.network;
 
+import com.ian.tugasakhir.data.Laporan;
+import com.ian.tugasakhir.data.Profile;
 import com.ian.tugasakhir.data.Response;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -30,6 +34,18 @@ public interface Service {
     Call<Response> login(
             @Field("username") String username,
             @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("get_laporan.php")
+    Call<List<Laporan>> getLaporan(
+            @Field("username") String username
+    );
+
+    @FormUrlEncoded
+    @POST("get_profile.php")
+    Call<Profile> getProfile(
+            @Field("username") String username
     );
 
 }

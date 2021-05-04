@@ -10,11 +10,12 @@ import com.ian.tugasakhir.data.Laporan;
 import com.ian.tugasakhir.databinding.KehadiranItemsBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
-    private final ArrayList<Laporan> mData;
+    private final List<Laporan> mData;
 
-    public ProfileAdapter(ArrayList<Laporan> mData) {
+    public ProfileAdapter(List<Laporan> mData) {
         this.mData = mData;
     }
 
