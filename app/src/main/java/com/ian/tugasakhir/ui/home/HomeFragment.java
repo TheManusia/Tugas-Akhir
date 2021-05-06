@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
         viewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
             String absen = profile.isAbsen() ? getString(R.string.absened) : getString(R.string.not_absen);
 
-            binding.tvName.setText(profile.getUsername());
+            binding.tvName.setText(profile.getName());
             binding.tvAbsen.setText(absen);
             if (profile.isAbsen()) {
                 Glide.with(this)

@@ -21,10 +21,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String" , "SERVER", '\"http://192.168.100.44/Absensi/\"')
+            buildConfigField("String" , "SERVER", '\"http://192.168.100.44:8080/\"')
         }
         debug {
-            buildConfigField("String" , "SERVER", '\"http://192.168.100.44/Absensi/\"')
+            buildConfigField("String" , "SERVER", '\"http://192.168.100.44:8080/\"')
         }
     }
 

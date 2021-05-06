@@ -27,10 +27,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ProfilePreference preference = new ProfilePreference(this);
-
-        profile = preference.getProfile();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             requestPermissions(PERMISSION, PERMISSION_CODE);
         else
@@ -48,9 +44,13 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         ActivityOptions options = ActivityOptions.makeCustomAnimation(MainActivity.this, R.anim.fragment_fade_enter, R.anim.fragment_close_exit);
+
+        ProfilePreference preference = new ProfilePreference(this);
+        profile = preference.getProfile();
+
         if (profile.isSession()) {
             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            intent.putExtra(KEY_ID, profile.getId());
+            intent.putExtra(KEY_ID, profile.getUsername());
             startActivity(intent, options.toBundle());
         } else {
             startActivity(new Intent(MainActivity.this, LoginActivity.class), options.toBundle());

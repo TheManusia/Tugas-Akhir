@@ -12,7 +12,7 @@ public class Converter {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             gambar.compress(Bitmap.CompressFormat.JPEG, 60, baos);
             byte[] imageBytes = baos.toByteArray();
-            encodeImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            encodeImage = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
         } catch (Exception e) {
             e.printStackTrace();
             encodeImage = "";

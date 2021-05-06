@@ -65,9 +65,9 @@ public class ProfileFragment extends Fragment {
                 .load(BuildConfig.SERVER + profile.getGambar())
                 .apply(new RequestOptions().override(150, 150))
                 .into(binding.civAvatar);
-        binding.tvUsername.setText(profile.getId());
-        binding.tvName.setText(profile.getUsername());
-        binding.collapsingToolbar.setTitle(profile.getUsername());
+        binding.tvUsername.setText(profile.getUsername());
+        binding.tvName.setText(profile.getName());
+        binding.collapsingToolbar.setTitle(profile.getName());
 
         String hadir = String.format(getString(R.string.hadir), profile.getHadir());
         String izin = String.format(getString(R.string.izin), profile.getIzin());
@@ -79,7 +79,7 @@ public class ProfileFragment extends Fragment {
 
         ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
         ProfileViewModel viewModel = new ViewModelProvider(this, viewModelFactory).get(ProfileViewModel.class);
-        viewModel.setUsername(profile.getId());
+        viewModel.setUsername(profile.getUsername());
         viewModel.getListLaporan().observe(getViewLifecycleOwner(), this::setLaporan);
 
         viewModel.isLoading().observe(this, this::pbController);

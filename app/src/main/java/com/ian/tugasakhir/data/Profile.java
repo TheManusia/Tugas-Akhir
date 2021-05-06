@@ -6,13 +6,13 @@ import lombok.Data;
 
 @Data
 public class Profile {
-    @SerializedName("id")
-    private String id;
     @SerializedName("username")
     private String username;
+    @SerializedName("nama")
+    private String name;
     @SerializedName("gambar")
     private String gambar;
-    @SerializedName("absen")
+    @SerializedName("status")
     private boolean absen;
     @SerializedName("hadir")
     private int hadir;

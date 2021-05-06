@@ -25,8 +25,8 @@ public class ProfilePreference {
 
     public void setProfile(Profile profile) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(KEY_ID, profile.getId());
-        editor.putString(KEY_USERNAME, profile.getUsername());
+        editor.putString(KEY_ID, profile.getUsername());
+        editor.putString(KEY_USERNAME, profile.getName());
         editor.putString(KEY_GAMBAR, profile.getGambar());
         editor.putBoolean(KEY_ABSEN, profile.isAbsen());
         editor.putInt(KEY_HADIR, profile.getHadir());
@@ -38,8 +38,8 @@ public class ProfilePreference {
 
     public Profile getProfile() {
         Profile profile = new Profile();
-        profile.setId(sharedPreferences.getString(KEY_ID, ""));
-        profile.setUsername(sharedPreferences.getString(KEY_USERNAME, ""));
+        profile.setUsername(sharedPreferences.getString(KEY_ID, ""));
+        profile.setName(sharedPreferences.getString(KEY_USERNAME, ""));
         profile.setGambar(sharedPreferences.getString(KEY_GAMBAR, ""));
         profile.setAbsen(sharedPreferences.getBoolean(KEY_ABSEN, false));
         profile.setHadir(sharedPreferences.getInt(KEY_HADIR, 0));

@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import com.ian.tugasakhir.data.Laporan;
 import com.ian.tugasakhir.data.Profile;
 import com.ian.tugasakhir.data.Response;
+import com.ian.tugasakhir.data.ResponseLaporan;
+import com.ian.tugasakhir.data.ResponseProfile;
 
 import java.util.List;
 
@@ -96,22 +98,22 @@ public class ApiHelper {
 
     public void getLaporan(String username, LaporanCallback callback) {
         callback.onLoading(true);
-        Call<List<Laporan>> client = apiConfig.getServices().getLaporan(username);
-        client.enqueue(new Callback<List<Laporan>>() {
+        Call<ResponseLaporan> client = apiConfig.getServices().getLaporan(username);
+        client.enqueue(new Callback<ResponseLaporan>() {
             @Override
-            public void onResponse(@NonNull Call<List<Laporan>> call, @NonNull retrofit2.Response<List<Laporan>> response) {
+            public void onResponse(@NonNull Call<ResponseLaporan> call, @NonNull retrofit2.Response<ResponseLaporan> response) {
                 callback.onLoading(false);
                 if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        callback.onGetLaporan(response.body());
-                    }
+                    if (response.body() != null)
+                        if (response.body().getStatus() == Response.OK)
+                            callback.onGetLaporan(response.body().getLaporanList());
                 } else {
                     Log.e(TAG, "getLaporan: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Laporan>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseLaporan> call, @NonNull Throwable t) {
                 Log.e(TAG, "getLaporan: " + t.getMessage(), t);
             }
         });
@@ -119,14 +121,15 @@ public class ApiHelper {
 
     public void getProfile(String username, ProfileCallback callback) {
         callback.onLoading(true);
-        Call<Profile> client = apiConfig.getServices().getProfile(username);
-        client.enqueue(new Callback<Profile>() {
+        Call<ResponseProfile> client = apiConfig.getServices().getProfile(username);
+        client.enqueue(new Callback<ResponseProfile>() {
             @Override
-            public void onResponse(@NonNull Call<Profile> call, @NonNull retrofit2.Response<Profile> response) {
+            public void onResponse(@NonNull Call<ResponseProfile> call, @NonNull retrofit2.Response<ResponseProfile> response) {
                 callback.onLoading(false);
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        callback.onGetProfile(response.body());
+                        if (response.body().getStatus() == Response.OK)
+                            callback.onGetProfile(response.body().getProfile());
                     }
                 } else {
                     Log.e(TAG, "getProfile: " + response.message());
@@ -134,7 +137,7 @@ public class ApiHelper {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Profile> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseProfile> call, @NonNull Throwable t) {
                 Log.e(TAG, "getProfile: " + t.getMessage(), t);
             }
         });

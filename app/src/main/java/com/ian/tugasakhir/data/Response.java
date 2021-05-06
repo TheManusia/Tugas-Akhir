@@ -6,8 +6,15 @@ import lombok.Data;
 
 @Data
 public class Response {
+    public static final int OK = 200;
+    public static final int BAD_REQUEST = 400;
+    public static final int UNAUTHORIZED = 401;
+    public static final int FORBIDDEN = 403;
+    public static final int NOT_FOUND = 404;
+    public static final int INTERNAL_ERROR = 500;
+
     @SerializedName("message")
     private String message;
-    @SerializedName("success")
-    private int success;
+    @SerializedName("status")
+    private int status;
 }

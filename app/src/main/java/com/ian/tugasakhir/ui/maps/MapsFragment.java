@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.PolyUtil;
 import com.ian.tugasakhir.R;
+import com.ian.tugasakhir.data.Response;
 import com.ian.tugasakhir.databinding.FragmentMapsBinding;
 import com.ian.tugasakhir.network.ApiConfig;
 import com.ian.tugasakhir.ui.home.HomeViewModel;
@@ -114,10 +115,10 @@ public class MapsFragment extends Fragment {
             ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
             HomeViewModel homeViewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel.class);
             homeViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
-                String username = profile.getId();
+                String username = profile.getUsername();
                 viewModel.setUsername(username);
                 viewModel.absen().observe(getViewLifecycleOwner(), response -> {
-                    if (response.getSuccess() > 0) {
+                    if (response.getStatus() == Response.OK) {
                         Toast.makeText(getContext(), "Berhasil Absen", Toast.LENGTH_SHORT).show();
                         profile.setAbsen(true);
                     } else {

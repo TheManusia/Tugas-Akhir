@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ian.tugasakhir.data.Response;
 import com.ian.tugasakhir.databinding.ActivityLoginBinding;
 import com.ian.tugasakhir.network.ApiConfig;
 import com.ian.tugasakhir.ui.home.HomeActivity;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.setUsername(username);
         viewModel.setPassword(password);
         viewModel.login().observe(this, response -> {
-            if (response.getSuccess() > 0) {
+            if (response.getStatus() == Response.OK) {
                 showToast(response.getMessage());
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 intent.putExtra(KEY_ID, username);

@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ian.tugasakhir.BuildConfig;
 import com.ian.tugasakhir.R;
 import com.ian.tugasakhir.data.Profile;
+import com.ian.tugasakhir.data.Response;
 import com.ian.tugasakhir.databinding.ActivitySettingBinding;
 import com.ian.tugasakhir.network.ApiConfig;
 import com.ian.tugasakhir.tools.Converter;
@@ -66,12 +67,12 @@ public class SettingActivity extends AppCompatActivity {
                 .error(R.drawable.ic_baseline_person_24)
                 .into(binding.civAvatarEdit);
 
-        binding.edtName.setText(profile.getUsername());
+        binding.edtName.setText(profile.getName());
 
         setSupportActionBar(binding.toolbarSetting);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(profile.getId());
+            getSupportActionBar().setTitle(profile.getUsername());
         }
         binding.pbEdit.setVisibility(View.GONE);
 
@@ -105,7 +106,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private void doEdit(String password, DialogInterface dialog) {
         binding.pbEdit.setVisibility(View.VISIBLE);
-        String username = profile.getId();
+        String username = profile.getUsername();
         String name = binding.edtName.getText().toString().trim();
         String newPass = binding.edtNewPass.getText().toString().trim();
         String confPass = binding.edtConfPass.getText().toString().trim();
@@ -115,10 +116,10 @@ public class SettingActivity extends AppCompatActivity {
             Toast.makeText(this, "Password tidak sama", Toast.LENGTH_SHORT).show();
         } else {
             viewModel.editProfile(name, username, password, newPass, newPicture).observe(this, response -> {
-                if (response.getSuccess() > 0) {
+                if (response.getStatus() == Response.OK) {
                     Toast.makeText(SettingActivity.this, "Berhasil mengubah profile", Toast.LENGTH_SHORT).show();
-                    profile.setUsername(name);
-                    profile.setId(username);
+                    profile.setName(name);
+                    profile.setUsername(username);
                     Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
                     intent.putExtra(KEY_ID, username);
                     startActivity(intent);
