@@ -48,7 +48,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ProfilePreference preference = new ProfilePreference(this);
+        ProfilePreference preference = new ProfilePreference(getApplicationContext());
         profile = preference.getProfile();
 
         ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());

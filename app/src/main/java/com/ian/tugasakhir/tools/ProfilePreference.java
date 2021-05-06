@@ -38,14 +38,14 @@ public class ProfilePreference {
 
     public Profile getProfile() {
         Profile profile = new Profile();
-        profile.setUsername(sharedPreferences.getString(KEY_ID, ""));
-        profile.setName(sharedPreferences.getString(KEY_USERNAME, ""));
-        profile.setGambar(sharedPreferences.getString(KEY_GAMBAR, ""));
-        profile.setAbsen(sharedPreferences.getBoolean(KEY_ABSEN, false));
-        profile.setHadir(sharedPreferences.getInt(KEY_HADIR, 0));
-        profile.setIzin(sharedPreferences.getInt(KEY_IZIN, 0));
-        profile.setAlpa(sharedPreferences.getInt(KEY_ALPA, 0));
-        profile.setSession(sharedPreferences.getBoolean(KEY_SESSION, false));
+        profile.setUsername(sharedPreferences.getString(KEY_ID, profile.getUsername()));
+        profile.setName(sharedPreferences.getString(KEY_USERNAME, profile.getName()));
+        profile.setGambar(sharedPreferences.getString(KEY_GAMBAR, profile.getGambar()));
+        profile.setAbsen(sharedPreferences.getBoolean(KEY_ABSEN, profile.isAbsen()));
+        profile.setHadir(sharedPreferences.getInt(KEY_HADIR, profile.getHadir()));
+        profile.setIzin(sharedPreferences.getInt(KEY_IZIN, profile.getIzin()));
+        profile.setAlpa(sharedPreferences.getInt(KEY_ALPA, profile.getAlpa()));
+        profile.setSession(sharedPreferences.getBoolean(KEY_SESSION, profile.isSession()));
 
         return profile;
     }

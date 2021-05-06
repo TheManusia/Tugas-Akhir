@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityOptions options = ActivityOptions.makeCustomAnimation(MainActivity.this, R.anim.fragment_fade_enter, R.anim.fragment_close_exit);
 
-        ProfilePreference preference = new ProfilePreference(this);
+        ProfilePreference preference = new ProfilePreference(getApplicationContext());
         profile = preference.getProfile();
 
         if (profile.isSession()) {

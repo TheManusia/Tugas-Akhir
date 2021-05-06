@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment {
 
     private void logout() {
         homeViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
-            ProfilePreference preference = new ProfilePreference(requireActivity());
+            ProfilePreference preference = new ProfilePreference(requireActivity().getApplicationContext());
             profile.setSession(false);
             preference.setProfile(profile);
         });

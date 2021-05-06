@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        preference = new ProfilePreference(this);
+        preference = new ProfilePreference(getApplicationContext());
         String id = getIntent().getStringExtra(KEY_ID);
 
         ViewModelFactory viewModelFactory = ViewModelFactory.getInstance(new ApiConfig());
@@ -55,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
             } else {
                 badge.setVisible(!profile.isAbsen());
             }
+            profile.setSession(preference.getProfile().isSession());
             preference.setProfile(profile);
         });
 

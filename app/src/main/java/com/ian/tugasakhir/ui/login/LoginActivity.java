@@ -8,9 +8,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ian.tugasakhir.data.Profile;
 import com.ian.tugasakhir.data.Response;
 import com.ian.tugasakhir.databinding.ActivityLoginBinding;
 import com.ian.tugasakhir.network.ApiConfig;
+import com.ian.tugasakhir.tools.ProfilePreference;
 import com.ian.tugasakhir.ui.home.HomeActivity;
 import com.ian.tugasakhir.viewmodel.ViewModelFactory;
 
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.login().observe(this, response -> {
             if (response.getStatus() == Response.OK) {
                 showToast(response.getMessage());
+                setSession();
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 intent.putExtra(KEY_ID, username);
                 startActivity(intent);
@@ -59,6 +62,13 @@ public class LoginActivity extends AppCompatActivity {
             else
                 binding.pbLogin.setVisibility(View.GONE);
         });
+    }
+
+    private void setSession() {
+        ProfilePreference preference = new ProfilePreference(getApplicationContext());
+        Profile profile = preference.getProfile();
+        profile.setSession(true);
+        preference.setProfile(profile);
     }
 
     private void showToast(String message) {
