@@ -7,13 +7,6 @@
 
 Tugas akhir seorang siswa yang bersekolah di sebuah SMK di Kota Malang.
 
-## Installation
-
-* Download GoPreSence [Versi Terbaru](https://github.com/TheManusia/Tugas-Akhir/releases/)
-* Install pada device Android anda
-* Pastikan Permission GPS disetujui
-
-
 ## Release History
 
 * v1.0
